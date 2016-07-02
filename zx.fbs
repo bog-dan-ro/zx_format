@@ -11,6 +11,7 @@ enum SnapshotType : byte {
     SNP,
     ZXS,
     SZX, // Default
+    RZX,
 }
 
 table Snapshot {
@@ -20,18 +21,15 @@ table Snapshot {
     content: string (required);
 }
 
-table Movie {
-    date: uint;
-    compression: ZX.Compression = DEFLATE;
-    content: string (required);
-}
 
 table File {
-    displayInfo: ZX.DisplayInfo;
+    displayInfo: DisplayInfo;
     zxFiles: [ZX.File];
+    instructions: [ZX.Instruction];
+    maps: [ZX.Map];
+    movies: [ZX.Movie];
     scans: [ZX.Scan];
     snapshots: [Snapshot];
-    movies: [Movie];
 }
 
 root_type File;

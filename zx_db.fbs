@@ -7,6 +7,9 @@ namespace ZX.DB;
 table Entry {
     displayInfo: DisplayInfo;
     zxFiles: [ZX.File];
+    instructions: [ZX.Instruction];
+    maps: [ZX.Map];
+    movies: [ZX.Movie];
     scans: [ZX.Scan];
 }
 

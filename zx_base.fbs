@@ -51,17 +51,28 @@ enum ImageType : byte {
     JPG,
 }
 
+table Movie {
+    description: string;
+    compression: ZX.Compression = DEFLATE;
+    content: string (required);
+}
+
 table Scan {
     type: ScanType = Cover;
     fileType: ImageType = PNG;
     content:string (required);
 }
 
+table Map {
+    fileType: ImageType = PNG;
+    content:string (required);
+    description: string;
+}
+
 enum InstructionType : byte {
     TEXT,
     MD,
     HTML,
-    RZX,
 }
 
 table Instruction {
@@ -132,7 +143,6 @@ table File {
     compression: Compression = DEFLATE;
     language: string; // ISO_639-1 language code
     pokes: [PokeInfo]; // Useful only for ZXFileType(s) which can't be extended, TZX & PZX should use their own POKE section
-    instruction: [Instruction]; // Useful only for ZXFileType(s) which can't be extended, TZX & PZZ should use their own INFO section
     hardwareInfo: [HardwareInfo]; // Useful only for ZXFileType(s) which can't be extended, TZX & PZX should use their own HARDWARE section
     title: string; // Title of this re-release, if different
     publisher: string; // Publisher of this re-release, if different
