@@ -1,4 +1,8 @@
 // Flat Buffers ZX file format
+// It is what the emulators will use.
+// This format is extended with snapshots section. Thanks to flatbuffers,
+// we don't have to worry about interoperability with server format.
+
 include "zx_base.fbs";
 
 namespace ZX.FB;

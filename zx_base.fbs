@@ -1,4 +1,6 @@
-// Flat Buffers ZX tables & enums
+// Flat Buffers ZX base tables & enums
+// It is the common part for both server & emulator format
+
 namespace ZX;
 
 enum MachineTypes : uint (bit_flags) {

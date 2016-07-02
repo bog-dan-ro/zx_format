@@ -1,4 +1,5 @@
 // Flat Buffers ZX database tables
+// It is what it will be stored in the database on the server side
 
 include "zx_base.fbs";
 
