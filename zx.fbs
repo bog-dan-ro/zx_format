@@ -1,0 +1,39 @@
+// Flat Buffers ZX file format
+include "zx_base.fbs";
+
+namespace ZX.FB;
+
+enum SnapshotType : byte {
+    SNA,
+    Z80,
+    PLUSD,
+    SP,
+    SNP,
+    ZXS,
+    SZX, // Default
+}
+
+table Snapshot {
+    type: SnapshotType;
+    date: uint;
+    compression: ZX.Compression = DEFLATE;
+    content: string (required);
+}
+
+table Movie {
+    date: uint;
+    compression: ZX.Compression = DEFLATE;
+    content: string (required);
+}
+
+table File {
+    displayInfo: ZX.DisplayInfo;
+    zxFiles: [ZX.File];
+    scans: [ZX.Scan];
+    snapshots: [Snapshot];
+    movies: [Movie];
+}
+
+root_type File;
+file_identifier "BDZX";
+file_extension "zx";

@@ -1,0 +1,140 @@
+// Flat Buffers ZX tables & enums
+namespace ZX;
+
+enum MachineTypes : uint (bit_flags) {
+    Spectrum_16K,                 // Spectrum 16K
+    Spectrum_48K,                 // Spectrum 48K
+    Spectrum_48K_NTSC,            // Spectrum 48K (NTSC)
+    Timex_TC2048,                 // Timex TC2048
+    Timex_TC2068,                 // Timex TC2068
+    Timex_TS2068,                 // Timex TS2068
+    Spectrum_128K,                // Spectrum 128K
+    Spectrum_128Ke,               // Spectrum 128Ke
+    Spectrum_PLUS2,               // Spectrum +2
+    Pentagon_128K,                // Pentagon 128K
+    Pentagon_512K,                // Pentagon 512K
+    Pentagon_1024K,               // Pentagon 1024K
+    Spectrum_PLUS2A,              // Spectrum +2A
+    Spectrum_PLUS3,               // Spectrum +3
+    Spectrum_PLUS3E,              // Spectrum +3e
+    Scorpion_ZS_256,              // Scorpion ZS 256
+    Spectrum_SE,                  // Spectrum SE
+}
+
+enum Compression : byte {
+    NONE,
+    DEFLATE, // ZLIB's deflate + prefixed with the length in bytes as a big-endian, 32-bit integer
+}
+
+enum ScreenType : byte {
+    LOADING,
+    IN_GAME,
+}
+
+table Screen {
+    type: ScreenType = LOADING;
+    content: string (required);
+    compression: Compression = DEFLATE;
+    language: string; // en ISO_639-1 language code
+}
+
+enum ScanType : byte {
+    Cover,
+    MagazineReference,
+    MagazineAdvertising,
+    Other
+}
+
+enum ImageType : byte {
+    PNG,
+    GIF,
+    JPG,
+}
+
+table Scan {
+    type: ScanType = Cover;
+    fileType: ImageType = PNG;
+    content:string (required);
+}
+
+enum InstructionType : byte {
+    TEXT,
+    MD,
+    HTML,
+    RZX,
+}
+
+table Instruction {
+    type: InstructionType = TEXT;
+    content: string (required);
+    compression: Compression = DEFLATE;
+    language: string; // ISO_639-1 language code
+}
+
+table Poke {
+    bank: ubyte = 8;
+    address: ushort;
+    value: ubyte = 0;
+    original_value: ubyte;
+    askForValue: bool;
+}
+
+table PokeInfo {
+    name: string (required);
+    description: string;
+    pokes: [Poke] (required);
+}
+
+enum ZXFileType : byte {
+    TAP,
+    TZX,
+    PZX,
+    Z80,
+    DSK,
+    SCL,
+    TRD,
+}
+
+enum ControlerTypes: uint (bit_flags) {
+    Kempston,
+    Sinclair_1,
+    Sinclair_2,
+    Cursor,
+    Timex_1,
+    Timex_2,
+    Fuller,
+}
+
+table DisplayInfo {
+  title: string (required);
+  year: ushort = 0;
+  publisher: string;
+  authors: [string];
+  types: [string];
+  collection: string;
+  machineTypes: MachineTypes; // MachineTypes bit flags
+  controlerTypes: ControlerTypes; // ControlerTypes bit flags
+  players: ubyte;
+  languages: [string]; // ISO_639-1 language codes
+  screens: [Screen];
+}
+
+table HardwareInfo {
+    machineTypes: MachineTypes; // MachineTypes bit flags
+    controlerTypes: ControlerTypes; // ControlerTypes bit flags
+}
+
+table File {
+    type: ZXFileType;
+    origin: string;
+    name: string (required);
+    parts: [string] (required); // TAP, TAX & PZX files should be glued automatically
+    compression: Compression = DEFLATE;
+    language: string; // ISO_639-1 language code
+    pokes: [PokeInfo]; // Useful only for ZXFileType(s) which can't be extended, TZX & PZX should use their own POKE section
+    instruction: [Instruction]; // Useful only for ZXFileType(s) which can't be extended, TZX & PZZ should use their own INFO section
+    hardwareInfo: [HardwareInfo]; // Useful only for ZXFileType(s) which can't be extended, TZX & PZX should use their own HARDWARE section
+    title: string; // Title of this re-release, if different
+    publisher: string; // Publisher of this re-release, if different
+    year: ushort = 0; // Year this re-release, if different
+}

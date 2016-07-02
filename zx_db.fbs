@@ -1,0 +1,14 @@
+// Flat Buffers ZX database tables
+
+include "zx_base.fbs";
+
+namespace ZX.DB;
+
+table Entry {
+    displayInfo: DisplayInfo;
+    zxFiles: [ZX.File];
+    scans: [ZX.Scan];
+}
+
+root_type Entry;
+file_identifier "BDZX";
