@@ -15,7 +15,6 @@ enum SnapshotType : byte {
     SNP,
     ZXS,
     SZX, // Default
-    RZX,
 }
 
 table Snapshot {
@@ -25,6 +24,18 @@ table Snapshot {
     content: string (required);
 }
 
+table RZX {
+    date: uint;
+    compression: ZX.Compression = DEFLATE;
+    content: string (required);
+}
+
+table Emulator {
+    snapshots: [Snapshot];
+    recordings: [RZX];
+
+}
+union EmulatorData {Emulator} // Emulators can add their own stuff here
 
 table File {
     displayInfo: DisplayInfo;
@@ -33,7 +44,7 @@ table File {
     maps: [ZX.Map];
     movies: [ZX.Movie];
     scans: [ZX.Scan];
-    snapshots: [Snapshot];
+    emulatorData: EmulatorData;
 }
 
 root_type File;
