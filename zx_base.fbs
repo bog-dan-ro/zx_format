@@ -143,7 +143,7 @@ table File {
     compression: Compression = DEFLATE;
     language: string; // ISO_639-1 language code
     pokes: [PokeInfo]; // Useful only for ZXFileType(s) which can't be extended, TZX & PZX should use their own POKE section
-    hardwareInfo: [HardwareInfo]; // Useful only for ZXFileType(s) which can't be extended, TZX & PZX should use their own HARDWARE section
+    hardwareInfo: HardwareInfo; // Useful only for ZXFileType(s) which can't be extended, TZX & PZX should use their own HARDWARE section
     title: string; // Title of this re-release, if different
     publisher: string; // Publisher of this re-release, if different
     year: ushort = 0; // Year this re-release, if different
