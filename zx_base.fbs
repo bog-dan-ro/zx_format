@@ -106,6 +106,10 @@ enum ZXFileType : byte {
     DSK,
     SCL,
     TRD,
+    MDR,
+    MGT,
+    OPD,
+    FDI,
 }
 
 enum ControlerTypes: uint (bit_flags) {
