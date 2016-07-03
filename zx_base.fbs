@@ -88,8 +88,8 @@ table Poke {
     bank: ubyte = 8;
     address: ushort;
     value: ubyte = 0;
-    original_value: ubyte;
-    askForValue: bool;
+    original_value: ubyte = 0;
+    askForValue: bool = false;
 }
 
 table PokeInfo {
